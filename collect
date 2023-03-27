@@ -1,0 +1,22 @@
+#!/bin/bash
+
+DEFAULT_NAMESPACE="iperf-collect"
+OUTPUT_DIR="/must-gather/"
+
+# Collect an ADM inspect bundle and push it back
+set_default_args() {
+    if [[ "${OUTPUT_DIR}" == "" ]]; then
+        echo "Using default output directory: ${DEFAULT_OUTPUT_DIR}"
+        OUTPUT_DIR=$DEFAULT_OUTPUT_DIR
+    fi
+
+    if [[ "${NAMESPACE}" == "" ]]; then
+        echo "Using default namespace: ${DEFAULT_NAMESPACE}"
+        NAMESPACE=$DEFAULT_NAMESPACE
+    fi
+}
+
+set_default_args
+
+cd $OUTPUT_DIR
+oc adm inspect "ns/$NAMESPACE"

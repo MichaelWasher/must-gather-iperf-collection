@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ .Values.iperfserver.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "collectionchart.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "collectionchart.selectorLabels" . | nindent 6 }}
+      {{- with .Values.iperfserver.nodeSelector }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- include "collectionchart.selectorLabels" . | nindent 8 }}
+        {{- with .Values.iperfserver.nodeSelector }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ include "collectionchart.serviceAccountName" . }}
+      serviceAccount: {{ include "collectionchart.serviceAccountName" . }}
+      containers:
+      - name: iperf-server
+        image: {{ .Values.image.repository }}
+        command:
+        - '/bin/sh'
+        - '-c'
+        - 'iperf3 -s'
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          privileged: true
+      hostNetwork: true
+      terminationGracePeriodSeconds: 0
+      {{- with .Values.iperfserver.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

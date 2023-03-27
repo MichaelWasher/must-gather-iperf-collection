@@ -1,0 +1,30 @@
+# Default values for collectionchart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "quay.io/support-tools/net-tools:latest"
+  pullPolicy: Always
+
+imagePullSecrets: []
+
+serviceAccount:
+  create: true
+  name: "iperf-collect-sa"
+
+tolerations: 
+- operator: Exists
+
+namespace:
+  name: "iperf-collect"
+
+iperfclient:
+  name: iperf-client
+  nodeSelector:
+    iperf-client: ""
+
+
+iperfserver:
+  name: iperf-server
+  nodeSelector:
+    iperf-server: ""
