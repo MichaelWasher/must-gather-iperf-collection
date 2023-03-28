@@ -23,17 +23,17 @@ $ oc label nodes/master-0.mwasherovn.lab.upshift.rdu2.redhat.com iperf-client=""
 
 To start performing a test between Nodes using iPerf, the 'deploy' option is used when running the image as below:
 ```
-$ oc adm must-gather --image quay.io/support-tools/iperf-collection -- deploy
+$ oc adm must-gather --image=quay.io/mwasher/must-gather-iperf-collection -- deploy
 ```
 
 ## Collecting the iPerf results
 To bundle and download the iPerf results from all labeled Nodes, the 'collect' option should be used as below:
 ```bash 
-$ oc adm must-gather --image quay.io/mwasher/iperf-collection -- collect
+$ oc adm must-gather --image=quay.io/mwasher/must-gather-iperf-collection -- collect
 ```
 
 # Uninstall
 To remove the pcap collectors the 'destroy' option should be used:
 ```bash 
-$ oc adm must-gather --image quay.io/mwasher/iperf-collection -- destroy
+$ oc adm must-gather --image=quay.io/mwasher/must-gather-iperf-collection -- destroy
 ```
